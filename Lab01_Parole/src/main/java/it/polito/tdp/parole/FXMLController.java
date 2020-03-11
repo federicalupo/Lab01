@@ -1,8 +1,7 @@
 package it.polito.tdp.parole;
 
 import java.util.*;
-
-//import it.polito.tdp.parole.model.ParoleArrayList;		//DOMANDA: DUE VERSIONI??
+	
 
 import it.polito.tdp.parole.model.Parole;
 import java.net.URL;
@@ -16,7 +15,7 @@ import javafx.scene.control.TextField;
 public class FXMLController {
 
 	Parole elenco; // viene creato nell'inizializzazione
-	//ParoleArrayList elenco;
+	
 
 	@FXML
 	private ResourceBundle resources;
@@ -35,21 +34,37 @@ public class FXMLController {
 
 	@FXML
 	private Button btnReset;
-	
+
 	@FXML
-	private Button btnCancella; //variabile bottone serve???
-	
-	 @FXML
-	    private TextArea txtTempi;
+	private Button btnCancella; // variabile bottone serve???
+
+	@FXML
+	private TextArea txtTempi;
 
 	@FXML
 	void doInsert(ActionEvent event) {
 
+		double start = System.nanoTime();
+
+		for (int i = 0; i < txtParola.getText().length(); i++) {
+			char c = txtParola.getText().charAt(i);
+			if (!Character.isLetter(c)) {
+				txtResult.appendText("Inserire caratteri corretti \n");
+
+				double stop = System.nanoTime();
+
+				this.tempoEsecuzione(start, stop);
+				return;
+			}
+		}
+
 		elenco.addParola(this.txtParola.getText());
 
 		this.scriviElenco();
-		
-		this.tempoEsecuzione();
+
+		double stop = System.nanoTime();
+
+		this.tempoEsecuzione(start, stop);
 
 	}
 
@@ -58,8 +73,7 @@ public class FXMLController {
 
 		elenco.reset();
 		txtResult.clear();
-		
-		this.tempoEsecuzione();
+
 		this.txtTempi.clear();
 
 	}
@@ -67,40 +81,44 @@ public class FXMLController {
 	@FXML
 	void doCancella(ActionEvent event) {
 
+		double start = System.nanoTime();
+
 		String daCancellare = txtResult.getSelectedText();
 		elenco.cancellaParola(daCancellare);
 
 		this.scriviElenco();
-		this.tempoEsecuzione();
+		double stop = System.nanoTime();
+
+		this.tempoEsecuzione(start, stop);
 	}
 
 	void scriviElenco() {
 		LinkedList<String> l = new LinkedList<String>(elenco.getElenco());
 
 		txtResult.clear();
-		
+
 		for (String s : l) {
 			txtResult.appendText(s + "\n"); // a capo!
 		}
 	}
-	
-	void tempoEsecuzione() {
-		Long l= System.nanoTime();
-		String s= l.toString();
-		
-		this.txtTempi.appendText(s+"\n");
+
+	void tempoEsecuzione(double start, double stop) {
+
+		Double differenza = (stop - start); // SERVE DIFFERENZA
+
+		this.txtTempi.appendText(differenza.toString() + "\n");
 	}
 
 	@FXML
 	void initialize() {
-		 assert txtParola != null : "fx:id=\"txtParola\" was not injected: check your FXML file 'Scene.fxml'.";
-	        assert btnInserisci != null : "fx:id=\"btnInserisci\" was not injected: check your FXML file 'Scene.fxml'.";
-	        assert txtResult != null : "fx:id=\"txtResult\" was not injected: check your FXML file 'Scene.fxml'.";
-	        assert txtTempi != null : "fx:id=\"txtTempi\" was not injected: check your FXML file 'Scene.fxml'.";
-	        assert btnCancella != null : "fx:id=\"btnCancella\" was not injected: check your FXML file 'Scene.fxml'.";
-	        assert btnReset != null : "fx:id=\"btnReset\" was not injected: check your FXML file 'Scene.fxml'.";
+		assert txtParola != null : "fx:id=\"txtParola\" was not injected: check your FXML file 'Scene.fxml'.";
+		assert btnInserisci != null : "fx:id=\"btnInserisci\" was not injected: check your FXML file 'Scene.fxml'.";
+		assert txtResult != null : "fx:id=\"txtResult\" was not injected: check your FXML file 'Scene.fxml'.";
+		assert txtTempi != null : "fx:id=\"txtTempi\" was not injected: check your FXML file 'Scene.fxml'.";
+		assert btnCancella != null : "fx:id=\"btnCancella\" was not injected: check your FXML file 'Scene.fxml'.";
+		assert btnReset != null : "fx:id=\"btnReset\" was not injected: check your FXML file 'Scene.fxml'.";
 
 		elenco = new Parole();
-		//elenco = new ParoleArrayList();
+		
 	}
 }
