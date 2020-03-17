@@ -35,8 +35,8 @@ public class FXMLController {
 	@FXML
 	private Button btnReset;
 
-	@FXML
-	private Button btnCancella; // variabile bottone serve???
+	//@FXML
+	//private Button btnCancella; // variabile bottone serve???
 
 	@FXML
 	private TextArea txtTempi;
@@ -48,7 +48,7 @@ public class FXMLController {
 
 		for (int i = 0; i < txtParola.getText().length(); i++) {
 			char c = txtParola.getText().charAt(i);
-			if (!Character.isLetter(c)) {
+			if (!Character.isLetter(c)) { //CONTROLLO DENTRO CONTROLLER
 				txtResult.appendText("Inserire caratteri corretti \n");
 
 				double stop = System.nanoTime();
@@ -115,7 +115,7 @@ public class FXMLController {
 		assert btnInserisci != null : "fx:id=\"btnInserisci\" was not injected: check your FXML file 'Scene.fxml'.";
 		assert txtResult != null : "fx:id=\"txtResult\" was not injected: check your FXML file 'Scene.fxml'.";
 		assert txtTempi != null : "fx:id=\"txtTempi\" was not injected: check your FXML file 'Scene.fxml'.";
-		assert btnCancella != null : "fx:id=\"btnCancella\" was not injected: check your FXML file 'Scene.fxml'.";
+	//	assert btnCancella != null : "fx:id=\"btnCancella\" was not injected: check your FXML file 'Scene.fxml'.";
 		assert btnReset != null : "fx:id=\"btnReset\" was not injected: check your FXML file 'Scene.fxml'.";
 
 		elenco = new Parole();
